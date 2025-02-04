@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
+#include <random>
 
 const std::string HANGMAN[] = { // The hangman figure
   "  +---+\n      |\n      |\n      |\n     ===",
@@ -16,9 +16,15 @@ void display(const std::string& guessed, int attempts); // Declaration of "displ
 
 int main()
 {
-  std::string words[] = {"meshan", "gun", "apple"}; // Predefined array of words, can be changed. (Line 21 needs to be changed accordingly).
-  std::srand(std::time(0)); // Seeds the random number generator
-  std::string word = words[std::rand() % 3], guessed(word.length(), '_'); // Selects a random word from the words[] array (3 words) and initializes "guessed" as a string of underscores, with the same length as the "randomly" chosen word that represent unguessed characters.
+  std::string words[] = {"meshan", "gun", "apple"}; // Predefined array of words, can be changed. (Line 23 needs to be changed accordingly).
+  std::random_device rd;
+  std::mt19937 gen(rd()); // Initialize the random number generator
+  
+  std::uniform_int_distribution<> dis(0, 2); // Random number between 0 and 2 (size of words array)
+  
+  std::string word = words[dis(gen)]; // Select a random word from the words[] array
+  std::string guessed(word.length(), '_');
+
   int attempts = 6; // Number of attempts, do not modify.
 
   while (attempts > 0 && guessed != word) { // This loop controls the game's progress, handling guesses, updating the display, and checking for win/loss conditions.
