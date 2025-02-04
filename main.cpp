@@ -2,44 +2,46 @@
 #include <cstdlib>
 #include <ctime>
 
-const std::string HANGMAN[] = {
-    "  +---+\n      |\n      |\n      |\n     ===",
-    "  +---+\n  O   |\n      |\n      |\n     ===",
-    "  +---+\n  O   |\n  |   |\n      |\n     ===",
-    "  +---+\n  O   |\n /|   |\n      |\n     ===",
-    "  +---+\n  O   |\n /|\\  |\n      |\n     ===",
-    "  +---+\n  O   |\n /|\\  |\n /    |\n     ===",
-    "  +---+\n  O   |\n /|\\  |\n / \\  |\n     ==="
+const std::string HANGMAN[] = { // The hangman figure
+  "  +---+\n      |\n      |\n      |\n     ===",
+  "  +---+\n  O   |\n      |\n      |\n     ===",
+  "  +---+\n  O   |\n  |   |\n      |\n     ===",
+  "  +---+\n  O   |\n /|   |\n      |\n     ===",
+  "  +---+\n  O   |\n /|\\  |\n      |\n     ===",
+  "  +---+\n  O   |\n /|\\  |\n /    |\n     ===",
+  "  +---+\n  O   |\n /|\\  |\n / \\  |\n     ==="
 };
 
-void display(const std::string& guessed, int attempts) {
-    std::cout << HANGMAN[6 - attempts] << "\n" << guessed 
-              << " (" << attempts << " attempts left)\nGuess: ";
-}
+void display(const std::string& guessed, int attempts); // Declaration of "display" function. Defined at the end.
 
-int main() {
-    std::string words[] = {"apple", "banana", "orange"};
-    std::srand(std::time(0));
-    std::string word = words[std::rand() % 3], guessed(word.length(), '_');
-    int attempts = 6;
+int main()
+{
+  std::string words[] = {"meshan", "gun", "apple"}; // Predefined array of words, can be changed. (Line 21 needs to be changed accordingly).
+  std::srand(std::time(0)); // Seeds the random number generator
+  std::string word = words[std::rand() % 3], guessed(word.length(), '_'); // Selects a random word from the words[] array (3 words) and initializes "guessed" as a string of underscores, with the same length as the "randomly" chosen word that represent unguessed characters.
+  int attempts = 6; // Number of attempts, do not modify.
 
-    while (attempts > 0 && guessed != word) {
-        display(guessed, attempts);
-        char guess;
-        std::cin >> guess;
-        bool found = false;
+  while (attempts > 0 && guessed != word) { // This loop controls the game's progress, handling guesses, updating the display, and checking for win/loss conditions.
+    display(guessed, attempts);
+    char guess;
+    std::cin >> guess;
+    bool found = false; // Will be used later to check if the guessed character exists in the word.
 
-        for (size_t i = 0; i < word.length(); i++) {
-            if (word[i] == guess) {
-                guessed[i] = guess;
-                found = true;
-            }
-        }
-
-        if (!found) attempts--;
+    for (size_t i = 0; i < word.length(); i++) { // Iterates through each letter of the word, one by one. 'i' is the index of each character in the word.
+      if (word[i] == guess) { // Checks if the guessed letter matches the letter at position i in the word. If they match, it means the player has guessed a correct letter.
+        guessed[i] = guess; // Updates the guessed string at position 'i' to show the correct letter in place of the underscore.
+        found = true; // Found is set to true when the guess is correct. Indicates that the player has guessed at least one correct letter in this round.
+      }
     }
 
-    std::cout << HANGMAN[6 - attempts] << "\n" 
-              << (guessed == word ? "You win! " : "You lose! ") 
-              << "The word was: " << word << '\n';
+    if (!found) attempts--; // If no match was found (while "found" is still false), the player's number of attempts is decreased by 1.
+  }
+
+  std::cout << HANGMAN[6 - attempts] << "\n" << (guessed == word ? "You win! " : "You lose! ") << "The word was: " << word << '\n'; // First part displays the current state of the hangman figure. Second part shows whether the player has won or lost based on the condition: guessed == word. 
+  return 0;
+}
+
+void display(const std::string& guessed, int attempts) // Shows the current state of the game
+{
+  std::cout << HANGMAN[6 - attempts] << "\n" << guessed << " (" << attempts << " attempts left)\nGuess: ";    
 }
