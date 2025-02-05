@@ -21,7 +21,7 @@ int main()
   std::random_device rd;
   std::mt19937 gen(rd()); // Initialize the random number generator
   
-  std::uniform_int_distribution<> dis(0, 3); // Random number between 0 and 4 (size of words array)
+  std::uniform_int_distribution<> dis(0, 3); // Random number between 0 and 3 (size of words array)
   
   std::string word = words[dis(gen)]; // Select a random word from the words[] array
   std::string guessed(word.length(), '_');
