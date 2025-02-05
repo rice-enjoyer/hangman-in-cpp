@@ -12,16 +12,16 @@ const std::string HANGMAN[] = { // The hangman figure
   "  +---+\n  O   |\n /|\\  |\n / \\  |\n     ==="
 };
 
-void display(const std::string& guessed, int attempts); // Declaration of "display" function. Defined at the end.
+void display(const std::string& guessed, int attempts);
 
 int main()
 {
   std::cout << "Hangman. Enter one word at a time but enter a whole word if you want to.\n";
-  std::string words[] = {"meshan", "gun", "apple"}; // Predefined array of words, can be changed. (Line 24 needs to be changed accordingly).
+  std::string words[] = {"germany", "gun", "russia", "china"}; // Predefined array of words, can be changed. (Line 24 needs to be changed accordingly).
   std::random_device rd;
   std::mt19937 gen(rd()); // Initialize the random number generator
   
-  std::uniform_int_distribution<> dis(0, 2); // Random number between 0 and 2 (size of words array)
+  std::uniform_int_distribution<> dis(0, 3); // Random number between 0 and 4 (size of words array)
   
   std::string word = words[dis(gen)]; // Select a random word from the words[] array
   std::string guessed(word.length(), '_');
